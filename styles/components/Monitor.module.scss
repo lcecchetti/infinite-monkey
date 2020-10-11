@@ -1,0 +1,54 @@
+@import 'styles/theme';
+
+.monitor {
+  background: $monitor-frame-color;
+  border-radius: $monitor-border-radius;
+  box-shadow: inset $monitor-shadow-size $monitor-shadow-size $monitor-shadow-size rgba(255, 255, 255, .5),
+              inset (-$monitor-shadow-size) (-$monitor-shadow-size) $monitor-shadow-size rgba(0, 0, 0, .5);
+  font-size: $terminal-font-size;
+  height: 100%;
+  margin: 0 auto;
+  padding: $monitor-frame-thickness;
+  position: relative;
+  width: 100%;
+
+  @include mobile {
+    padding: $monitor-frame-thickness / 2;
+  }
+}
+
+.screen {
+  background: #000;
+  border-radius: $screen-border-radius;
+  box-shadow: 0 0 1px 3px rgba(10, 10, 10, 0.7);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+
+  // interlace
+  &::before {
+    animation: flicker 2s infinite linear;
+    background: $interlace-background;
+    background-repeat: repeat-y;
+    background-size: 100% $interlace-size;
+    content: '';
+    height: 100%;
+    opacity: 0.2;
+    position: absolute;
+    width: 100%;
+  }
+
+  // scanline
+  &::after {
+    animation: scanline 1.25s linear infinite;
+    background: $scanline-background;
+    content: '';
+    height: 2em;
+    left: 0;
+    opacity: .05;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}

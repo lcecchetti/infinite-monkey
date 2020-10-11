@@ -1,0 +1,110 @@
+@keyframes scanline {
+  0% {
+    top: 0;
+  }
+
+  100% {
+    top: 100%;
+  }
+}
+
+@keyframes skew {
+  0% {
+    transform: skewX(0.5deg);
+  }
+
+  10% {
+    transform: skewX(0.8deg) scale(1.001);
+  }
+
+  20% {
+    transform: skewX(0.5deg) skewY(-0.15deg);
+  }
+
+  30% {
+    transform: skewX(0.8deg);
+  }
+
+  100% {
+    transform: skewX(0.2deg);
+  }
+}
+
+@keyframes blur {
+  50% {
+    color: darken($terminal-color, 10%);
+    text-shadow: 2px 0 2px lighten($terminal-text-shadow, 50%);
+  }
+}
+
+@keyframes glow {
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: .1
+  }
+  5% {
+    opacity: .12
+  }
+  10% {
+    opacity: .08
+  }
+  15% {
+    opacity: .05
+  }
+  20% {
+    opacity: .11
+  }
+  25% {
+    opacity: .18
+  }
+  30% {
+    opacity: .20
+  }
+  35% {
+    opacity: .13
+  }
+  40% {
+    opacity: .17
+  }
+  45% {
+    opacity: .07
+  }
+  50% {
+    opacity: .02
+  }
+  55% {
+    opacity: .09
+  }
+  60% {
+    opacity: .05
+  }
+  65% {
+    opacity: .15
+  }
+  70% {
+    opacity: .20
+  }
+  75% {
+    opacity: .18
+  }
+  80% {
+    opacity: .30
+  }
+  85% {
+    opacity: .05
+  }
+  90% {
+    opacity: .01
+  }
+  95% {
+    opacity: .12
+  }
+  100% {
+    opacity: .20
+  }
+}

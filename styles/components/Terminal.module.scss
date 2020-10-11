@@ -1,6 +1,38 @@
-@import 'styles/_theme';
+@import 'styles/theme';
 
 .terminal {
+  animation: skew 5s linear infinite;
+  background: $terminal-background;
   height: 100%;
+  position: relative;
   width: 100%;
+
+  &::after {
+    @include fill();
+
+    animation: glow 2s linear infinite;
+    background: radial-gradient(ellipse at center, rgba($terminal-color, 1) 0%, rgba($terminal-color, 0) 100%);
+    content: '';
+    opacity: .5;
+    pointer-events: none;
+  }
+
+  .output {
+    animation: blur 5s linear infinite;
+    color: $terminal-color;
+    display: block;
+    font-family: $terminal-font-family;
+    font-size: $terminal-font-size;
+    line-height: $terminal-line-height;
+    margin: 0;
+    overflow: hidden;
+    padding: 2em;
+    text-shadow: 0 0 2px $terminal-text-shadow;
+    white-space: pre-wrap;
+    width: 100%;
+
+    &::selection {
+      background: darken($terminal-color, 20%);
+    }
+  }
 }

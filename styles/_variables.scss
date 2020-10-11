@@ -1,0 +1,27 @@
+//font
+$font-family: 'MajorMonoDisplay-Regular';
+$font-size: 18px;
+
+// monitor
+$monitor-frame-color: #6b6b6b;
+$monitor-frame-thickness: 1em * 4;
+$monitor-border-radius: $monitor-frame-thickness / 2;
+$monitor-shadow-size: $monitor-frame-thickness / 12;
+
+// screen
+$screen-border-radius: $monitor-border-radius;
+
+// scanline
+$scanline-background: linear-gradient(to bottom, transparent 0%, rgb(255, 250, 250) 50%, rgb(100, 255, 100) 50%, transparent 100%);
+
+// interlace
+$interlace-background: linear-gradient(#666 50%, #000 50%);
+$interlace-size: 5px;
+
+// terminal
+$terminal-background: rgba(#000, 0.25);
+$terminal-color: #00ff66;
+$terminal-font-family: $font-family;
+$terminal-font-size: $font-size;
+$terminal-line-height: 1.5;
+$terminal-text-shadow: lighten($terminal-color, 20%);
