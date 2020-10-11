@@ -34,5 +34,7 @@
     &::selection {
       background: darken($terminal-color, 20%);
     }
+
+    .monkeyOutput {}
   }
 }

@@ -1,9 +1,24 @@
+import {useEffect, useState} from 'react';
 import styles from 'styles/components/Terminal.module.scss';
+import Monkey from 'lib/monkey';
+import MonkeyOutput from "../MonkeyOutput";
 
-const Terminal = (props) => (
+// a monkey
+var monkey = Monkey();
+
+// monkey target
+var target = 'Lorem ipsum dolor sit amet';
+
+const Terminal = () => {
+  return (
     <div className={styles.terminal}>
-      <span className={styles.output}>Lorem ipsum <br/>dolor sit amet</span>
+      <div className={styles.output}>
+        <h1>🐒 Infinite Monkey Corp ©</h1>
+        <MonkeyOutput target={target}/>
+      </div>
     </div>
-);
+  );
+};
+
 
 export default Terminal;
