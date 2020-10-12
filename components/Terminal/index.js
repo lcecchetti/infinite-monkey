@@ -1,10 +1,11 @@
 import {useEffect, useState} from 'react';
 import styles from 'styles/components/Terminal.module.scss';
 import Monkey from 'lib/monkey';
-import MonkeyOutput from "../MonkeyOutput";
+import MonkeyEssay from "../MonkeyEssay";
+import masterpiece from "lib/masterpiece";
 
 // a monkey
-var monkey = Monkey();
+var monkey = new Monkey(masterpiece, .95);
 
 // monkey target
 var target = 'Lorem ipsum dolor sit amet';
@@ -14,7 +15,7 @@ const Terminal = () => {
     <div className={styles.terminal}>
       <div className={styles.output}>
         <h1>🐒 Infinite Monkey Corp ©</h1>
-        <MonkeyOutput target={target}/>
+        <MonkeyEssay monkey={monkey}/>
       </div>
     </div>
   );
