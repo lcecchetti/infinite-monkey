@@ -4,6 +4,7 @@
   animation: skew 5s linear infinite;
   background: $terminal-background;
   height: 100%;
+  overflow: hidden;
   position: relative;
   width: 100%;
 
@@ -23,10 +24,12 @@
     display: block;
     font-family: $terminal-font-family;
     font-size: $terminal-font-size;
+    height: 100%;
     line-height: $terminal-line-height;
     margin: 0;
-    overflow: hidden;
+    overflow: auto;
     padding: 2em;
+    position: absolute;
     text-shadow: 0 0 2px $terminal-text-shadow;
     white-space: pre-wrap;
     width: 100%;
@@ -35,6 +38,15 @@
       background: darken($terminal-color, 20%);
     }
 
-    .monkeyOutput {}
+    @include mobile() {
+      font-size: $terminal-font-size * .8;
+      padding: 1em;
+    }
+
+    .logo {
+      @include mobile() {
+        font-size: 1.5em;
+      }
+    }
   }
 }

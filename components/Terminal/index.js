@@ -14,7 +14,7 @@ const Terminal = () => {
   return (
     <div className={styles.terminal}>
       <div className={styles.output}>
-        <h1>🐒 Infinite Monkey Corp ©</h1>
+        <h1 className={styles.logo}>🐒 Infinite Monkey Corp ©</h1>
         <MonkeyEssay monkey={monkey}/>
       </div>
     </div>
