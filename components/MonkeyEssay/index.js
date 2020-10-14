@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
+import styles from 'styles/components/MonkeyEssay.module.scss';
 
 const MonkeyEssay = ({ monkey }) => {
   const [monkeyEssay, setMonkeyEssay] = useState(monkey.essay);
@@ -12,7 +13,7 @@ const MonkeyEssay = ({ monkey }) => {
     monkey.do();
 
     // update view status
-    setMonkeyEssay(monkey.essay);
+    setMonkeyEssay([...monkey.essay]);
   }
 
   useEffect(() => {
@@ -24,7 +25,11 @@ const MonkeyEssay = ({ monkey }) => {
   });
 
   return (
-    <span>{monkeyEssay}</span>
+    <div className={styles.monkeyEssay}>
+      {monkeyEssay.map((char, index) => (
+        char.isQuote ? <span className={styles.highlighted} key={index}>{char.value}</span> : char.value
+      ))}
+    </div>
   );
 };
 
