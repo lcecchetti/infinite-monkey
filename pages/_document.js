@@ -7,7 +7,6 @@ export default class CustomDocument extends Document {
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content="#000"/>
-          <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
         </Head>
         <body>
         <Main/>

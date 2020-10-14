@@ -6,6 +6,7 @@ function InfiniteMonkeyApp({Component, pageProps}) {
     <>
       <Head>
         <title>Infinite Monkey Corp</title>
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
       </Head>
 
       <Component {...pageProps} />
