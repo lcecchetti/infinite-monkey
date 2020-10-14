@@ -5,7 +5,7 @@ import MonkeyEssay from "../MonkeyEssay";
 import quotes from "lib/quotes";
 
 // a monkey
-var monkey = new Monkey(quotes, 1000, .005);
+var monkey = new Monkey(quotes, 2500, .005);
 
 // monkey target
 var target = 'Lorem ipsum dolor sit amet';

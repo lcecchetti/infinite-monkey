@@ -33,6 +33,7 @@
     text-shadow: 0 0 2px $terminal-text-shadow;
     white-space: pre-wrap;
     width: 100%;
+    word-break: break-all;
 
     &::selection {
       background: darken($terminal-color, 20%);
