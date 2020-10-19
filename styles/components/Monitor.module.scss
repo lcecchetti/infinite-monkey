@@ -9,15 +9,36 @@
   height: 100%;
   margin: 0 auto;
   padding: $monitor-frame-thickness;
-  position: relative;
+  position: fixed;
   width: 100%;
 
   @include mobile {
     padding: $monitor-frame-thickness / 2;
   }
+
+  // manage off state
+  &.off {
+    .screen {
+      &::after {
+        display: none;
+      }
+
+      &::before {
+        animation: none;
+      }
+    }
+
+    .terminal{
+      opacity: 0;
+      .output {
+        height: 0;
+      }
+    }
+  }
 }
 
 .screen {
+  transition: 1s opacity ease-out;
   background: #000;
   border-radius: $screen-border-radius;
   box-shadow: 0 0 1px 3px rgba(10, 10, 10, 0.7);
@@ -47,8 +68,91 @@
     height: 2em;
     left: 0;
     opacity: .05;
+    pointer-events: none;
     position: absolute;
     right: 0;
     top: 0;
   }
 }
+
+.terminal {
+  animation: skew 5s linear infinite;
+  background: $terminal-background;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  transition: opacity $terminal-transition linear;
+  width: 100%;
+
+  &::after {
+    @include fill();
+
+    animation: glow 2s linear infinite;
+    background: radial-gradient(ellipse at center, rgba($terminal-color, 1) 0%, rgba($terminal-color, 0) 100%);
+    content: '';
+    opacity: .5;
+    pointer-events: none;
+  }
+
+  .output {
+    -ms-overflow-style: none;  /* IE and Edge */
+    animation: blur 5s linear infinite;
+    color: $terminal-color;
+    display: block;
+    font-family: $terminal-font-family;
+    font-size: $terminal-font-size;
+    height: 100%;
+    line-height: $terminal-line-height;
+    margin: 0;
+    overflow: auto;
+    padding: 2em;
+    position: absolute;
+    scrollbar-width: none;  /* Firefox */
+    text-shadow: 0 0 2px $terminal-text-shadow;
+    transition: height $terminal-transition linear;
+    white-space: pre-wrap;
+    width: 100%;
+    word-break: break-all;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &::selection {
+      background: darken($terminal-color, 20%);
+    }
+
+    @include mobile() {
+      font-size: $terminal-font-size * .8;
+      padding: 1em;
+    }
+
+    .logo {
+      @include mobile() {
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  button {
+    background: none;
+    border: 1px solid $terminal-color;
+    color: $terminal-color;
+    cursor: pointer;
+    padding: 10px 30px;
+
+    &:hover {
+      background: $highlight-background;
+    }
+  }
+}
+
+.commandsWrapper {
+  text-align: center;
+
+  .onOffToggle {
+    cursor: pointer;
+    padding: 20px;
+  }
+}
+

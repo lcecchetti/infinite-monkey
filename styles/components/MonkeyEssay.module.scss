@@ -1,7 +1,7 @@
 @import 'styles/theme';
 
 .monkeyEssay {
-  .highlighted {
-    background: darken($terminal-color, 30%);
+  .highlight {
+    background: $highlight-background;
   }
 }

@@ -25,3 +25,6 @@ $terminal-font-family: $font-family;
 $terminal-font-size: $font-size;
 $terminal-line-height: 1.5;
 $terminal-text-shadow: lighten($terminal-color, 20%);
+$terminal-transition: .5s;
+
+$highlight-background: darken($terminal-color, 30%);

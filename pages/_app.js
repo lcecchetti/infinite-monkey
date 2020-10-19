@@ -1,5 +1,6 @@
 import 'styles/globals.scss';
 import Head from 'next/head';
+import Monitor from 'components/Monitor';
 
 function InfiniteMonkeyApp({Component, pageProps}) {
   return (
@@ -9,7 +10,9 @@ function InfiniteMonkeyApp({Component, pageProps}) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width"/>
       </Head>
 
-      <Component {...pageProps} />
+      <Monitor>
+        <Component {...pageProps} />
+      </Monitor>
     </>
   );
 }
