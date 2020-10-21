@@ -97,9 +97,7 @@
     scrollbar-width: none;  /* Firefox */
     text-shadow: 0 0 2px $terminal-text-shadow;
     transition: height $terminal-transition linear;
-    white-space: pre-wrap;
     width: 100%;
-    word-break: break-all;
 
     &::-webkit-scrollbar {
       display: none;
@@ -112,12 +110,6 @@
     @include mobile() {
       font-size: $terminal-font-size * .8;
       padding: 1em;
-    }
-
-    .logo {
-      @include mobile() {
-        font-size: 1.5em;
-      }
     }
   }
 

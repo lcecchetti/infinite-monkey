@@ -2,8 +2,11 @@
 $font-family: 'MajorMonoDisplay-Regular';
 $font-size: 18px;
 
+// spacing
+$default-margin: 30px;
+
 // screen
-$screen-border-radius: 4em;
+$screen-border-radius: 30px;
 
 // scanline
 $scanline-background: linear-gradient(to bottom, transparent 0%, rgb(255, 250, 250) 50%, rgb(100, 255, 100) 50%, transparent 100%);

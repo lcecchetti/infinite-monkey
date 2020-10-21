@@ -1,3 +1,13 @@
 @import 'styles/_theme';
 
-.home {}
+.home {
+  .logo {
+    text-align: center;
+  }
+
+  .intro {
+    font-weight: bold;
+    margin: $default-margin 0;
+    text-align: center;
+  }
+}

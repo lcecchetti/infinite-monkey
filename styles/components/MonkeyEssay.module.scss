@@ -3,7 +3,7 @@
 .monkeyOutput {
 
   .actions {
-    margin: 20px 0;
+    margin: $default-margin 0;
     text-align: center;
   }
   .awakeButton {
@@ -11,6 +11,9 @@
   }
 
   .monkeyEssay {
+    margin: $default-margin 0;
+    white-space: pre-wrap;
+    word-break: break-all;
     .highlight {
       background: $terminal-highlight-background;
     }
