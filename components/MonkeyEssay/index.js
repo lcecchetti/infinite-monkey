@@ -1,10 +1,10 @@
 import { useState, useContext } from 'react';
-import OnContext from "lib/OnContext";
+import IsOnContext from "lib/IsOnContext";
 import styles from 'styles/components/MonkeyEssay.module.scss';
 
 const MonkeyEssay = ({ monkey }) => {
   const [monkeyEssay, setMonkeyEssay] = useState(monkey.essay);
-  const isOn = useContext(OnContext);
+  const isOn = useContext(IsOnContext);
 
   /**
    * Render monkey essay

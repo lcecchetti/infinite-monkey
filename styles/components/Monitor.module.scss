@@ -1,20 +1,7 @@
 @import 'styles/theme';
 
 .monitor {
-  background: $monitor-frame-color;
-  border-radius: $monitor-border-radius;
-  box-shadow: inset $monitor-shadow-size $monitor-shadow-size $monitor-shadow-size rgba(255, 255, 255, .5),
-              inset (-$monitor-shadow-size) (-$monitor-shadow-size) $monitor-shadow-size rgba(0, 0, 0, .5);
-  font-size: $terminal-font-size;
-  height: 100%;
-  margin: 0 auto;
-  padding: $monitor-frame-thickness;
-  position: fixed;
-  width: 100%;
-
-  @include mobile {
-    padding: $monitor-frame-thickness / 2;
-  }
+  @include fill();
 
   // manage off state
   &.off {
@@ -142,17 +129,7 @@
     padding: 10px 30px;
 
     &:hover {
-      background: $highlight-background;
+      background: $terminal-highlight-background;
     }
   }
 }
-
-.commandsWrapper {
-  text-align: center;
-
-  .onOffToggle {
-    cursor: pointer;
-    padding: 20px;
-  }
-}
-
