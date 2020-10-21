@@ -1,7 +1,18 @@
 @import 'styles/theme';
 
-.monkeyEssay {
-  .highlight {
-    background: $terminal-highlight-background;
+.monkeyOutput {
+
+  .actions {
+    margin: 20px 0;
+    text-align: center;
+  }
+  .awakeButton {
+    display: inline-block;
+  }
+
+  .monkeyEssay {
+    .highlight {
+      background: $terminal-highlight-background;
+    }
   }
 }

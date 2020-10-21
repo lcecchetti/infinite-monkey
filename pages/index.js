@@ -1,5 +1,5 @@
 import styles from 'styles/pages/Home.module.scss';
-import MonkeyEssay from "components/MonkeyEssay";
+import MonkeyOutput from "components/MonkeyOutput";
 import Monkey from 'lib/monkey';
 import quotes from "lib/quotes";
 
@@ -12,8 +12,9 @@ export default function Home() {
     <div className={styles.home}>
       <div className={styles.header}>
         <h1 className={styles.logo}>🐒 Infinite Monkey Corp ©</h1>
+        <p></p>
       </div>
-      <MonkeyEssay monkey={monkey}/>
+      <MonkeyOutput monkey={monkey}/>
     </div>
   );
 }

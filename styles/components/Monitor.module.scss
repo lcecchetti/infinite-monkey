@@ -128,8 +128,12 @@
     cursor: pointer;
     padding: 10px 30px;
 
-    &:hover {
+    &:hover, &:active {
       background: $terminal-highlight-background;
+    }
+
+    &:focus {
+      outline: none;
     }
   }
 }
