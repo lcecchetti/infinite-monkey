@@ -17,7 +17,7 @@ $interlace-background: linear-gradient(#666 50%, #000 50%);
 $interlace-size: 5px;
 
 // terminal
-$terminal-background: #000;
+$terminal-background: rgba(#000, .25);
 $terminal-color: #0f6;
 $terminal-font-family: $font-family;
 $terminal-font-size: $font-size;
