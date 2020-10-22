@@ -6,7 +6,7 @@ import quotes from "lib/quotes";
 export default function Home() {
 
   // a monkey
-  var monkey = new Monkey(quotes, 1000, .005);
+  var monkey = new Monkey(quotes, 2000, .001);
 
   return (
     <div className={styles.home}>

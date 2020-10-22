@@ -1,11 +1,12 @@
 import { useState, useContext } from 'react';
 import IsOnContext from "lib/IsOnContext";
-import styles from 'styles/components/MonkeyEssay.module.scss';
+import styles from 'styles/components/MonkeyOutput.module.scss';
 
 const MonkeyOutput = ({ monkey }) => {
+  const isOn = useContext(IsOnContext);
   const [monkeyEssay, setMonkeyEssay] = useState(monkey.essay);
   const [isAwake, setIsAwake] = useState(monkey.isAwake);
-  const isOn = useContext(IsOnContext);
+  const [hasMoral, setHasMoral] = useState(false);
 
   /**
    * Force the monkey to the next action
@@ -23,6 +24,8 @@ const MonkeyOutput = ({ monkey }) => {
    * Toogle monkey isAwake
    */
   const toggleIsAwake = () => {
+    setHasMoral(monkey.hasQuoted);
+
     if (!monkey.isAwake) {
       monkey.awake();
     }
@@ -49,6 +52,14 @@ const MonkeyOutput = ({ monkey }) => {
           {monkeyEssay.map((char, index) => (
             char.isQuote ? <span className={styles.highlight} key={index}>{char.value}</span> : char.value
           ))}
+        </div>
+      }
+
+      {!isAwake && hasMoral &&
+        <div className={styles.moral}>
+          <p>Are you SURPRISED? You didn't think that the monkey would have written anything meaningful, didn't you?</p>
+          <p>But what is truly suprising?</p>
+          <p>The fact that the MONKEY did quote the hamlet? Or the fact that this branch of the UNIVERSE wrote down this program? Or that YOU are actually here, in front of the screen, reading a MONKEY quoting the HAMLET?</p>
         </div>
       }
     </div>

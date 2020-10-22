@@ -11,11 +11,21 @@
   }
 
   .monkeyEssay {
+    border: 1px solid $terminal-color;
+    border-bottom: none;
+    border-top: none;
+    padding: $default-padding;
     margin: $default-margin 0;
     white-space: pre-wrap;
     word-break: break-all;
     .highlight {
       background: $terminal-highlight-background;
     }
+  }
+
+  .moral {
+    font-weight: bold;
+    margin: $default-margin 0;
+    text-align: center;
   }
 }
