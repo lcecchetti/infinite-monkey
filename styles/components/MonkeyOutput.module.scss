@@ -2,6 +2,10 @@
 
 .monkeyOutput {
 
+  margin: 0 auto;
+  max-width: 1000px;
+  position: relative;
+
   .actions {
     margin: $default-margin 0;
     text-align: center;
@@ -16,7 +20,6 @@
     border-top: none;
     padding: $default-padding;
     margin: $default-margin 0;
-    text-align: justify;
     white-space: pre-wrap;
     word-break: break-all;
     .highlight {

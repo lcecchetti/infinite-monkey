@@ -39,6 +39,12 @@ const MonkeyOutput = ({ quotes, maxEssayLength, literateRatio }) => {
         </div>
       }
 
+      {monkey.essay.length == maxEssayLength &&
+        <div className={styles.actions}>
+          <button className={styles.awakeButton} onClick={asleep}>Stop The Monkey</button>
+        </div>
+      }
+
       {!monkey.isAwake && monkey.hasQuoted &&
         <div className={styles.moral}>
           <p>Congratulations, your MONKEY instance did quote the hAMLET.</p>
