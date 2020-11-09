@@ -41,14 +41,14 @@ const MonkeyOutput = ({ quotes, maxEssayLength, literateRatio }) => {
 
       {!monkey.isAwake && monkey.hasQuoted &&
         <div className={styles.moral}>
-          <p>Congratulations, your MONKEY instance did quote the HAMLET.</p>
+          <p>Congratulations, your MONKEY instance did quote the hAMLET.</p>
           <p>
             But is that truly unexpected?<br/>
             What about this text? What about this program?<br/>
             What about you?
           </p>
           <p>Isn't this just the latest edge of this branch of the universe?</p>
-          <p>CHAOS reading CHAOS writings.</p>
+          <p>ChAOS reading ChAOS writings.</p>
         </div>
       }
 
