@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import IsOnContext from "lib/IsOnContext";
 import { useMonkey } from "lib/monkey";
 import styles from 'styles/components/MonkeyOutput.module.scss';
@@ -41,9 +41,14 @@ const MonkeyOutput = ({ quotes, maxEssayLength, literateRatio }) => {
 
       {!monkey.isAwake && monkey.hasQuoted &&
         <div className={styles.moral}>
-          <p>Are you SURPRISED? You didn't think that the monkey would have written anything meaningful, didn't you?</p>
-          <p>But what is truly suprising?</p>
-          <p>The fact that the MONKEY did quote the hamlet? Or the fact that this branch of the UNIVERSE wrote down this program? Or that YOU are actually here, in front of the screen, reading a MONKEY quoting the HAMLET?</p>
+          <p>Congratulations, your MONKEY instance did quote the HAMLET.</p>
+          <p>
+            But is that truly unexpected?<br/>
+            What about this text? What about this program?<br/>
+            What about you?
+          </p>
+          <p>Isn't this just the latest edge of this branch of the universe?</p>
+          <p>CHAOS reading CHAOS writings.</p>
         </div>
       }
 

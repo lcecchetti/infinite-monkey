@@ -10,7 +10,7 @@ export default function Home() {
       </div>
       <div className={styles.intro}>
         <p>"The infinite monkey theorem states that a monkey hitting keys at random on a typewriter keyboard for an infinite amount of time will almost surely type any given text, such as the complete works of William Shakespeare"</p>
-        <p>By executing the Program, Infinite Monkey LAB provides your own Digital MONKEY instance, which will be fed with Digital BANANAS each time it'll match a quote from the HAMLET.</p>
+        <p>By clicking execute, Infinite Monkey LAB will provide you a Digital MONKEY, a Virtual KEYBOARD and an infinite amount of TIME.</p>
       </div>
       <MonkeyOutput quotes={quotes} maxEssayLength={2000} literateRatio={0.001} />
     </div>
