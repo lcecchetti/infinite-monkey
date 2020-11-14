@@ -1,6 +1,8 @@
 import 'styles/globals.scss';
 import Head from 'next/head';
 import Monitor from 'components/Monitor';
+import CookieConsent from 'components/CookieConsent';
+
 
 function InfiniteMonkeyApp({Component, pageProps}) {
   return (
@@ -12,6 +14,7 @@ function InfiniteMonkeyApp({Component, pageProps}) {
 
       <Monitor>
         <Component {...pageProps} />
+        <CookieConsent />
       </Monitor>
     </>
   );

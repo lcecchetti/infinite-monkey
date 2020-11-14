@@ -1,0 +1,19 @@
+@import 'styles/theme';
+
+.banner {
+  background: $terminal-highlight-background;
+  bottom: $screen-border-radius;
+  left: 0;
+  padding: 10px;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+
+  .text {
+
+  }
+
+  .button {
+    margin: 10px;
+  }
+}
