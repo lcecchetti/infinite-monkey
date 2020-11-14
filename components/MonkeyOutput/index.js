@@ -45,16 +45,22 @@ const MonkeyOutput = ({ quotes, maxEssayLength, literateRatio }) => {
         </div>
       }
 
-      {!monkey.isAwake && monkey.hasQuoted &&
+      {!monkey.isAwake && monkey.hasQuoted.length > 0 &&
         <div className={styles.moral}>
-          <p>Congratulations, your MONKEY instance did quote the hAMLET.</p>
+          <p>Congratulations, your MONKEY instance did quote&#160;
+            {monkey.hasQuoted.map((quote, index) => (
+              <span className={styles.quote}>
+                {quote.work} from {quote.author}{index === monkey.hasQuoted.length - 1  ? '.' : ', '}
+              </span>
+            ))}
+          </p>
           <p>
             But is that truly unexpected?<br/>
             What about this text? What about this program?<br/>
             What about you?
           </p>
-          <p>Isn't this just the latest edge of this branch of the universe?</p>
-          <p>ChAOS reading ChAOS writings.</p>
+          <p>Isn't this just the latest output of this branch of the universe?</p>
+          <p>ChAOS reading ChAOS' writings.</p>
         </div>
       }
 
