@@ -2,11 +2,23 @@ import 'styles/globals.scss';
 import Head from 'next/head';
 import Monitor from 'components/Monitor';
 import CookieConsent from 'components/CookieConsent';
-import Router from "next/router";
-import withGA from "next-ga";
-
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import * as gtag from 'lib/gtag';
 
 function InfiniteMonkeyApp({Component, pageProps}) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      gtag.pageview(url)
+    }
+    router.events.on('routeChangeComplete', handleRouteChange)
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events]);
+
   return (
     <>
       <Head>
@@ -22,4 +34,4 @@ function InfiniteMonkeyApp({Component, pageProps}) {
   );
 }
 
-export default withGA("G-JG1MNXXKL2", Router)(InfiniteMonkeyApp);
+export default InfiniteMonkeyApp;
