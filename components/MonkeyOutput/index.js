@@ -1,34 +1,14 @@
 import { useContext } from 'react';
-import IsOnContext from "lib/IsOnContext";
-import { useMonkey } from "lib/monkey";
+import IsMonitorOnContext from "lib/IsMonitorOnContext";
+import useMonkey from "lib/useMonkey";
 import styles from 'styles/components/MonkeyOutput.module.scss';
 
 const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }) => {
-  const isOn = useContext(IsOnContext);
-  const { monkey, wakeUp, sleep } = useMonkey(quotes, literateRatio, maxEssayLength);
-
-  /**
-   * Toogle monkey isAwake
-   */
-  const toggleIsAwake = () => {
-    if (!monkey.isAwake) {
-      wakeUp();
-    }
-    else {
-      sleep();
-    }
-  };
-
-  /**
-   * Restart the monkey
-   */
-  const restart = () => {
-    sleep();
-    wakeUp()
-  }
+  const isMonitorOn = useContext(IsMonitorOnContext);
+  const { monkey, sleep, toogleIsAwake, restart } = useMonkey(quotes, literateRatio, maxEssayLength);
 
   // stop the monkey
-  if (!isOn && monkey.isAwake) {
+  if (!isMonitorOn && monkey.isAwake) {
     sleep();
   }
 
@@ -36,7 +16,7 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }) => {
     <div className={styles.monkeyOutput}>
 
       <div className={styles.actions}>
-        <button className={styles.awakeButton} onClick={toggleIsAwake}>{monkey.isAwake ? 'Stop The Monkey' : 'Execute Monkey Program'}</button>
+        <button className={styles.awakeButton} onClick={toogleIsAwake}>{monkey.isAwake ? 'Stop The Monkey' : 'Execute Monkey Program'}</button>
       </div>
 
       {(monkey.isAwake || monkey.essay.length >= maxEssayLength) &&

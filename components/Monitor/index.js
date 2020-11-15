@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import IsOnContext from "lib/IsOnContext";
+import IsMonitorOnContext from "lib/IsMonitorOnContext";
 import styles from 'styles/components/Monitor.module.scss';
 
 const Monitor = ({ children }) => {
@@ -15,9 +15,9 @@ const Monitor = ({ children }) => {
       <div className={styles.screen}>
         <div className={styles.terminal}>
           <div className={styles.output}>
-            <IsOnContext.Provider value={isOn}>
+            <IsMonitorOnContext.Provider value={isOn}>
               {children}
-            </IsOnContext.Provider>
+            </IsMonitorOnContext.Provider>
           </div>
         </div>
       </div>
