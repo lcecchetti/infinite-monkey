@@ -3,63 +3,65 @@ import IsOnContext from "lib/IsOnContext";
 import { useMonkey } from "lib/monkey";
 import styles from 'styles/components/MonkeyOutput.module.scss';
 
-const MonkeyOutput = ({ quotes, maxEssayLength, literateRatio }) => {
+const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }) => {
   const isOn = useContext(IsOnContext);
-  const { monkey, awake, asleep } = useMonkey(quotes, maxEssayLength, literateRatio);
+  const { monkey, wakeUp, sleep } = useMonkey(quotes, literateRatio, maxEssayLength);
 
   /**
    * Toogle monkey isAwake
    */
   const toggleIsAwake = () => {
     if (!monkey.isAwake) {
-      awake();
+      wakeUp();
     }
     else {
-      asleep();
+      sleep();
     }
   };
 
-  // stop the monkey if monitor is off
+  /**
+   * Restart the monkey
+   */
+  const restart = () => {
+    sleep();
+    wakeUp()
+  }
+
+  // stop the monkey
   if (!isOn && monkey.isAwake) {
-    asleep();
+    sleep();
   }
 
   return (
-    <div className={`${styles.monkeyOutput} ${monkey.isAwake ? styles.awake : styles.asleep}`}>
+    <div className={styles.monkeyOutput}>
 
       <div className={styles.actions}>
         <button className={styles.awakeButton} onClick={toggleIsAwake}>{monkey.isAwake ? 'Stop The Monkey' : 'Execute Monkey Program'}</button>
       </div>
 
-      {monkey.isAwake &&
+      {(monkey.isAwake || monkey.essay.length >= maxEssayLength) &&
         <div className={styles.monkeyEssay}>
           {monkey.essay.map((char, index) => (
-            char.isQuote ? <span className={styles.highlight} key={index}>{char.value}</span> : char.value
+            <span className={char.isQuote ? styles.highlight : ''} key={index}>{char.value}</span>
           ))}
         </div>
       }
 
-      {monkey.essay.length == maxEssayLength &&
+      {monkey.essay.length >= maxEssayLength &&
         <div className={styles.actions}>
-          <button className={styles.awakeButton} onClick={asleep}>Stop The Monkey</button>
+          <button className={styles.awakeButton} onClick={monkey.currentQuote.author ? sleep : restart}>{monkey.currentQuote.author ? 'Stop The Monkey' : 'Keep going'}</button>
         </div>
       }
 
-      {!monkey.isAwake && monkey.hasQuoted.length > 0 &&
+      {!monkey.isAwake && monkey.currentQuote.author &&
         <div className={styles.moral}>
-          <p>Congratulations, your MONKEY instance did quote&#160;
-            {monkey.hasQuoted.map((quote, index) => (
-              <span className={styles.quote}>
-                {quote.work} from {quote.author}{index === monkey.hasQuoted.length - 1  ? '.' : ', '}
-              </span>
-            ))}
-          </p>
+          <p>Congratulations, your MONKEY instance did quote {monkey.currentQuote.work} from {monkey.currentQuote.author}.</p>
           <p>
             But is that truly unexpected?<br/>
             What about this text? What about this program?<br/>
-            What about you?
+            And what about yourself?
           </p>
-          <p>Isn't this just the latest output of this branch of the universe?</p>
+          <p>Isn't all of this just the latest character typed by this branch of the universe?</p>
           <p>ChAOS reading ChAOS' writings.</p>
         </div>
       }

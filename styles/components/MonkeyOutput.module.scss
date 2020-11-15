@@ -28,8 +28,10 @@
   }
 
   .moral {
+    border: 1px dashed;
     font-weight: bold;
     margin: $default-margin 0;
+    padding: 15px;
     text-align: center;
   }
 }
