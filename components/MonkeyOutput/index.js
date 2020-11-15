@@ -5,7 +5,14 @@ import styles from 'styles/components/MonkeyOutput.module.scss';
 
 const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }) => {
   const isMonitorOn = useContext(IsMonitorOnContext);
-  const { monkey, sleep, toogleIsAwake, restart } = useMonkey(quotes, literateRatio, maxEssayLength);
+  const { monkey, wakeUp, sleep } = useMonkey(quotes, literateRatio, maxEssayLength);
+
+  /**
+   * Toogle monkey isAwake
+   */
+  const toogleIsAwake = () => {
+    monkey.isAwake ? sleep() : wakeUp();
+  };
 
   // stop the monkey
   if (!isMonitorOn && monkey.isAwake) {
@@ -19,7 +26,7 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }) => {
         <button className={styles.awakeButton} onClick={toogleIsAwake}>{monkey.isAwake ? 'Stop The Monkey' : 'Execute Monkey Program'}</button>
       </div>
 
-      {(monkey.isAwake || monkey.essay.length >= maxEssayLength) &&
+      {!!monkey.essay.length &&
         <div className={styles.monkeyEssay}>
           {monkey.essay.map((char, index) => (
             <span className={char.isQuote ? styles.highlight : ''} key={index}>{char.value}</span>
@@ -27,13 +34,13 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }) => {
         </div>
       }
 
-      {monkey.essay.length >= maxEssayLength &&
+      {(monkey.essay.length >= maxEssayLength && !monkey.currentQuote) &&
         <div className={styles.actions}>
-          <button className={styles.awakeButton} onClick={monkey.currentQuote.author ? sleep : restart}>{monkey.currentQuote.author ? 'Stop The Monkey' : 'Keep going'}</button>
+          <button className={styles.awakeButton} onClick={wakeUp}>Keep going</button>
         </div>
       }
 
-      {!monkey.isAwake && monkey.currentQuote.author &&
+      {(!monkey.isAwake && monkey.currentQuote) &&
         <div className={styles.moral}>
           <p>Congratulations, your MONKEY instance did quote {monkey.currentQuote.work} from {monkey.currentQuote.author}.</p>
           <p>
