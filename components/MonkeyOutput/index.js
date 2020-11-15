@@ -7,13 +7,6 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }) => {
   const isMonitorOn = useContext(IsMonitorOnContext);
   const { monkey, wakeUp, sleep } = useMonkey(quotes, literateRatio, maxEssayLength);
 
-  /**
-   * Toogle monkey isAwake
-   */
-  const toogleIsAwake = () => {
-    monkey.isAwake ? sleep() : wakeUp();
-  };
-
   // stop the monkey
   if (!isMonitorOn && monkey.isAwake) {
     sleep();
@@ -23,7 +16,7 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }) => {
     <div className={styles.monkeyOutput}>
 
       <div className={styles.actions}>
-        <button className={styles.awakeButton} onClick={toogleIsAwake}>{monkey.isAwake ? 'Stop The Monkey' : 'Execute Monkey Program'}</button>
+        <button className={styles.awakeButton} onClick={monkey.isAwake ? sleep : wakeUp}>{monkey.isAwake ? 'Stop The Monkey' : 'Execute Monkey Program'}</button>
       </div>
 
       {!!monkey.essay.length &&
