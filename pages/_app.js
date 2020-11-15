@@ -2,6 +2,8 @@ import 'styles/globals.scss';
 import Head from 'next/head';
 import Monitor from 'components/Monitor';
 import CookieConsent from 'components/CookieConsent';
+import Router from "next/router";
+import withGA from "next-ga";
 
 
 function InfiniteMonkeyApp({Component, pageProps}) {
@@ -37,4 +39,4 @@ function InfiniteMonkeyApp({Component, pageProps}) {
   );
 }
 
-export default InfiniteMonkeyApp;
+export default withGA("G-JG1MNXXKL2", Router)(InfiniteMonkeyApp);
