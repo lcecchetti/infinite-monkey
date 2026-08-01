@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode, useState, useEffect } from 'react';
 import IsMonitorOnContext from "lib/IsMonitorOnContext";
 import styles from 'styles/components/Monitor.module.scss';

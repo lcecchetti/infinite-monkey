@@ -1,3 +1,5 @@
+'use client';
+
 import { useContext } from 'react';
 import IsMonitorOnContext from "lib/IsMonitorOnContext";
 import useMonkey from "lib/useMonkey";

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 const IsMonitorOnContext = React.createContext<boolean>(false);
