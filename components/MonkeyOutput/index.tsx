@@ -40,6 +40,7 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }: MonkeyOutputPro
   }, [hasQuote]);
 
   const firstQuoteIndex = monkey.essay.findIndex((char) => char.isQuote);
+  const showMoral = !monkey.isAwake && !!monkey.currentQuote && monkey.currentQuote.quote === '';
 
   return (
     <div className={styles.monkeyOutput} style={outputStyle}>
@@ -48,8 +49,14 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }: MonkeyOutputPro
         <button className={styles.awakeButton} onClick={monkey.isAwake ? sleep : wakeUp}>{monkey.isAwake ? 'Stop The Monkey' : 'Execute Monkey Program'}</button>
       </div>
 
+      {/* the typed-out essay is just visual noise for screen readers - the
+        meaningful moments (start/stop, a found quote) are announced below */}
+      <p className={styles.statusMessage} role="status" aria-live="polite">
+        {monkey.isAwake ? 'The monkey started typing.' : hasText ? 'The monkey stopped.' : ''}
+      </p>
+
       {hasText &&
-        <div className={styles.monkeyEssay}>
+        <div className={styles.monkeyEssay} aria-hidden="true">
           {monkey.essay.map((char, index) => (
             <span
               ref={index === firstQuoteIndex ? quoteRef : undefined}
@@ -62,18 +69,20 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }: MonkeyOutputPro
         </div>
       }
 
-      {(!monkey.isAwake && monkey.currentQuote && monkey.currentQuote.quote === '') &&
-        <div className={styles.moral}>
-          <p>Congratulations, your MONKEY instance did quote {monkey.currentQuote.work} by {monkey.currentQuote.author}.</p>
-          <p>
-            But is that truly unexpected?<br/>
-            What about this text? What about this program?<br/>
-            And what about yourself?
-          </p>
-          <p>Isn&apos;t all of this just the latest character typed by this branch of the universe?</p>
-          <p>ChAOS reading ChAOS&apos; writings.</p>
-        </div>
-      }
+      <div role="status" aria-live="polite">
+        {showMoral &&
+          <div className={styles.moral}>
+            <p>Congratulations, your MONKEY instance did quote {monkey.currentQuote!.work} by {monkey.currentQuote!.author}.</p>
+            <p>
+              But is that truly unexpected?<br/>
+              What about this text? What about this program?<br/>
+              And what about yourself?
+            </p>
+            <p>Isn&apos;t all of this just the latest character typed by this branch of the universe?</p>
+            <p>ChAOS reading ChAOS&apos; writings.</p>
+          </div>
+        }
+      </div>
 
     </div>
   );

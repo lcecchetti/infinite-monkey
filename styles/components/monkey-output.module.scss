@@ -24,6 +24,10 @@ $box-decoration: 32px;
     display: inline-block;
   }
 
+  .statusMessage {
+    @include sr-only;
+  }
+
   .monkeyEssay {
     // shrink the font just enough that $line-em-width em's worth of text
     // plus the box's own chrome fits the container - never past 1em (the

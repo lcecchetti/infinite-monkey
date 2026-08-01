@@ -101,4 +101,43 @@ describe('MonkeyOutput', () => {
 
     expect(screen.getByRole('button')).toHaveTextContent('Execute Monkey Program');
   });
+
+  it('hides the rapidly-typed essay from assistive tech', () => {
+    const quotes: Quote[] = [{ quote: 'HelloWorld', author: 'A', work: 'W' }];
+    renderMonitorOn(<MonkeyOutput quotes={quotes} literateRatio={2} maxEssayLength={600} />);
+
+    click();
+    tick();
+
+    const essayContainer = screen.getByText('H').parentElement!;
+    expect(essayContainer).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('announces start and stop through a status region instead of the essay', () => {
+    renderMonitorOn(<MonkeyOutput quotes={[]} literateRatio={0} maxEssayLength={600} />);
+
+    const status = screen.getAllByRole('status')[0];
+    expect(status).toHaveTextContent('');
+
+    click();
+    expect(status).toHaveTextContent('The monkey started typing.');
+
+    tick();
+    click();
+    expect(status).toHaveTextContent('The monkey stopped.');
+  });
+
+  it('announces the moral message through a status region once a quote is found', () => {
+    const quotes: Quote[] = [{ quote: 'HelloWorld', author: 'Author Name', work: 'Some Work' }];
+    renderMonitorOn(<MonkeyOutput quotes={quotes} literateRatio={2} maxEssayLength={LINE_LENGTH} />);
+
+    click();
+    for (let i = 0; i < LINE_LENGTH; i++) {
+      tick();
+    }
+
+    const statusRegions = screen.getAllByRole('status');
+    const moralStatus = statusRegions.find((region) => region.textContent?.includes('Some Work'));
+    expect(moralStatus).toBeDefined();
+  });
 });
