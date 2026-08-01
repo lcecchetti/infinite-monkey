@@ -1,37 +1,48 @@
-import {useEffect, useReducer, useState} from 'react';
+import { useEffect, useReducer, useState } from 'react';
+import { EssayChar, Quote } from 'lib/types';
 
-/** @ŧype {String} - monkey alphabet */
+/** monkey alphabet */
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ';
 
-/** @type {Number} - min length of the quote guessed */
+/** min length of the quote guessed */
 const MIN_QUOTE_LENGTH = 10;
 
 /**
  * Monkey reducer action types
- * @type {Object}
  */
 const monkeyActions = {
   DO: 'DO',
   WAKEUP: 'WAKEUP',
   SLEEP: 'SLEEP',
-};
+} as const;
+
+type MonkeyActionType = typeof monkeyActions[keyof typeof monkeyActions];
+
+interface MonkeyAction {
+  type: MonkeyActionType;
+}
+
+interface MonkeyState {
+  isAwake: boolean;
+  essay: EssayChar[];
+  currentQuote: Quote | null;
+  quotes: Quote[];
+  literateRatio: number;
+  speed?: number;
+}
 
 /**
  * Get random quote
- * @param {Array} quotes
- * @return {String}
  */
-const getRandomQuote = (quotes) => {
+const getRandomQuote = (quotes: Quote[]): Quote => {
   // get random quote
   return quotes[Math.floor(Math.random() * quotes.length)];
 };
 
 /**
  * Get random quote part
- * @param {String} quote
- * @return {String}
  */
-const getRandomQuotePart = (quote) => {
+const getRandomQuotePart = (quote: string): string => {
   const sliceFrom = Math.floor(Math.random() * (quote.length - MIN_QUOTE_LENGTH));
   const sliceLength = Math.floor(Math.random() * quote.length + MIN_QUOTE_LENGTH);
   return quote.substr(sliceFrom, sliceLength).trim();
@@ -39,11 +50,8 @@ const getRandomQuotePart = (quote) => {
 
 /**
  * Check if the monkey should type the next char wrong
- * @param {Number} literateRatio
- * @param {Object} currentQuote
- * @return {Boolean}
  */
-const shouldTypo = (literateRatio, currentQuote) => {
+const shouldTypo = (literateRatio: number, currentQuote: Quote | null): boolean => {
   if (currentQuote) {
     return !currentQuote.quote;
   }
@@ -53,11 +61,8 @@ const shouldTypo = (literateRatio, currentQuote) => {
 
 /**
  * Produce next essay char
- * @param {String} char
- * @param {Boolean} isQuote
- * @return {Object}
  */
-const type = (char, isQuote) => {
+const type = (char: string, isQuote: boolean): EssayChar => {
   return {
     value: char,
     isQuote: isQuote
@@ -66,25 +71,22 @@ const type = (char, isQuote) => {
 
 /**
  * Get random typing speed
- * @return {Number}
  */
-const getRandomSpeed = () => {
+const getRandomSpeed = (): number => {
   return (Math.random() * 1000) / 10;
 };
 
 /**
  * Get random char from the alphabet
- * @return {String}
  */
-const getRandomChar = () => {
+const getRandomChar = (): string => {
   return ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
 };
 
 /**
  * Initial monkey state
- * @type {Object}
  */
-const monkeyInitialState = {
+const monkeyInitialState: Pick<MonkeyState, 'isAwake' | 'essay' | 'currentQuote'> = {
   isAwake: false,
   essay: [],
   currentQuote: null,
@@ -92,18 +94,15 @@ const monkeyInitialState = {
 
 /**
  * Monkey reducer
- * @param {Object} monkey
- * @param {Object} action
- * @return {Object}
  */
-const monkeyReducer = (monkey, action) => {
+const monkeyReducer = (monkey: MonkeyState, action: MonkeyAction): MonkeyState => {
 
   switch (action.type) {
 
     // do next action
-    case monkeyActions.DO:
-      let newChar;
-      let currentQuote = monkey.currentQuote ? {...monkey.currentQuote} : null;
+    case monkeyActions.DO: {
+      let newChar: EssayChar;
+      let currentQuote = monkey.currentQuote ? { ...monkey.currentQuote } : null;
 
       // check if monkey should typo or if it should quote
       if (shouldTypo(monkey.literateRatio, currentQuote)) {
@@ -112,7 +111,7 @@ const monkeyReducer = (monkey, action) => {
       else {
         // pick next quote
         if (!currentQuote) {
-          currentQuote = {...getRandomQuote(monkey.quotes)};
+          currentQuote = { ...getRandomQuote(monkey.quotes) };
           currentQuote.quote = getRandomQuotePart(currentQuote.quote);
         }
 
@@ -127,6 +126,7 @@ const monkeyReducer = (monkey, action) => {
         speed: getRandomSpeed(),
         essay: [...monkey.essay, newChar],
       };
+    }
 
     // wake up the monkey
     case monkeyActions.WAKEUP:
@@ -145,7 +145,7 @@ const monkeyReducer = (monkey, action) => {
 
     // no action found
     default:
-      throw new Error(`Unknown action type: ${action.type}`);
+      throw new Error(`Unknown action type: ${(action as MonkeyAction).type}`);
   }
 
 };
@@ -154,12 +154,11 @@ const monkeyReducer = (monkey, action) => {
 /**
  * A monkey typing random keys
  * - No digital monkey was harmed in the making of this program -
- * @param {Array} list of quotes
- * @param {Number} literateRatio - how much the monkey is literate in a range from 0 to 1
- * @param {Number} maxEssayLength - maximum length of the essay before taking a break
- * @constructor
+ * @param quotes - list of quotes
+ * @param literateRatio - how much the monkey is literate in a range from 0 to 1
+ * @param maxEssayLength - maximum length of the essay before taking a break
  */
-const useMonkey = (quotes, literateRatio, maxEssayLength) => {
+const useMonkey = (quotes: Quote[], literateRatio: number, maxEssayLength: number) => {
 
   // monkey
   const [monkey, dispatch] = useReducer(monkeyReducer, {
@@ -169,7 +168,7 @@ const useMonkey = (quotes, literateRatio, maxEssayLength) => {
   });
 
   // sound effect
-  const [soundEffect, setSoundEffect] = useState();
+  const [soundEffect, setSoundEffect] = useState<HTMLAudioElement>();
 
   /**
    * Load sound effect

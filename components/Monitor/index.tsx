@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import IsMonitorOnContext from "lib/IsMonitorOnContext";
 import styles from 'styles/components/Monitor.module.scss';
 
-const Monitor = ({ children }) => {
+interface MonitorProps {
+  children: ReactNode;
+}
+
+const Monitor = ({ children }: MonitorProps) => {
   const [isOn, setIsOn] = useState(false);
 
   // turn on monitor at page load

@@ -15,7 +15,7 @@ const CookieConsent = () => {
    */
   const accept = () => {
     setAccepted(true);
-    Cookies.set(COOKIE_NAME, true, {
+    Cookies.set(COOKIE_NAME, 'true', {
       expires: 365,
     })
   }

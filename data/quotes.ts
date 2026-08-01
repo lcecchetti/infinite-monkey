@@ -1,4 +1,6 @@
-export default [
+import { Quote } from 'lib/types';
+
+const quotes: Quote[] = [
   {
     quote: 'To be or not to be that is the question',
     author: 'William Shakespeare',
@@ -85,3 +87,5 @@ export default [
     work: 'The Old Man and the Sea',
   },
 ];
+
+export default quotes;

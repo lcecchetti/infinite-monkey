@@ -5,12 +5,13 @@ import CookieConsent from 'components/CookieConsent';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import * as gtag from 'lib/gtag';
+import type { AppProps } from 'next/app';
 
-function InfiniteMonkeyApp({Component, pageProps}) {
+function InfiniteMonkeyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
-    const handleRouteChange = (url) => {
+    const handleRouteChange = (url: string) => {
       gtag.pageview(url)
     }
     router.events.on('routeChangeComplete', handleRouteChange)

@@ -1,9 +1,16 @@
 import { useContext } from 'react';
 import IsMonitorOnContext from "lib/IsMonitorOnContext";
 import useMonkey from "lib/useMonkey";
+import { Quote } from "lib/types";
 import styles from 'styles/components/MonkeyOutput.module.scss';
 
-const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }) => {
+interface MonkeyOutputProps {
+  quotes: Quote[];
+  literateRatio: number;
+  maxEssayLength: number;
+}
+
+const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }: MonkeyOutputProps) => {
   const isMonitorOn = useContext(IsMonitorOnContext);
   const { monkey, wakeUp, sleep } = useMonkey(quotes, literateRatio, maxEssayLength);
 

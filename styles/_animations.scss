@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 @keyframes scanline {
   0% {
     top: 0;
@@ -32,8 +34,8 @@
 
 @keyframes blur {
   50% {
-    color: darken($terminal-color, 10%);
-    text-shadow: 2px 0 2px lighten($terminal-text-shadow, 50%);
+    color: color.adjust($terminal-color, $lightness: -10%);
+    text-shadow: 2px 0 2px color.adjust($terminal-text-shadow, $lightness: 50%);
   }
 }
 
