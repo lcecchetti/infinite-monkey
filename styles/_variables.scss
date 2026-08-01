@@ -1,7 +1,7 @@
 @use 'sass:color';
 
 //font
-$font-family: 'MajorMonoDisplay-Regular';
+$font-family: var(--font-terminal), monospace;
 $font-size: 18px;
 
 // spacing

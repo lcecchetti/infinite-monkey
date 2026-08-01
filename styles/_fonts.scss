@@ -1,4 +1,0 @@
-@use 'mixins';
-@use 'variables';
-
-@include mixins.fontface(variables.$terminal-font-family);

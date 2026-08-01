@@ -12,7 +12,6 @@ export const metadata: Metadata = {
     type: 'website',
     title: 'Infinite Monkey Lab',
     description: THEOREM_DEFINITION,
-    images: ['/favicon.ico'],
   },
 };
 

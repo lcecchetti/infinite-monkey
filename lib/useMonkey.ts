@@ -257,20 +257,20 @@ const useMonkey = (quotes: Quote[], literateRatio: number, maxEssayLength: numbe
   const [soundEffect, setSoundEffect] = useState<HTMLAudioElement>();
 
   /**
-   * Load sound effect
+   * Load sound effect - deferred until the monkey first wakes up, so the
+   * audio file isn't fetched on initial page load if it's never needed
    */
-  // constructing an Audio instance is a real side effect, not a derivable snapshot
   useEffect(() => {
+    if (!monkey.isAwake || soundEffect) {
+      return;
+    }
+
     const audio = new Audio('/audio/keyboard.mp3');
-    // set sound effect to loop
-    audio.addEventListener('ended', function () {
-      this.currentTime = 0;
-      this.play();
-    }, false);
+    audio.loop = true;
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSoundEffect(audio);
-  }, [])
+  }, [monkey.isAwake, soundEffect])
 
   /**
    * Keep the sound effect in sync with the monkey's state - silent while erasing
