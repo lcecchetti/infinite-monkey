@@ -1,5 +1,5 @@
 @use 'sass:color';
-@use 'styles/theme' as *;
+@use '../theme' as *;
 
 .monitor {
   @include fill();

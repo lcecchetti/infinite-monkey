@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
-import { EssayChar, Quote } from 'lib/types';
+import { EssayChar, Quote } from '@/lib/types';
 
 /** monkey alphabet */
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ';

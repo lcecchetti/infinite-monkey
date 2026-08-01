@@ -2,9 +2,9 @@ import { act, render, screen } from '@testing-library/react';
 import { ReactElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import MonkeyOutput from '.';
-import IsMonitorOnContext from 'lib/is-monitor-on-context';
-import { Quote } from 'lib/types';
-import { LINE_LENGTH } from 'lib/use-monkey';
+import IsMonitorOnContext from '@/lib/is-monitor-on-context';
+import { Quote } from '@/lib/types';
+import { LINE_LENGTH } from '@/lib/use-monkey';
 
 // MonkeyOutput only runs while its ancestor Monitor is "on" (see the
 // monitor-off auto-sleep effect); tests exercising the running monkey need

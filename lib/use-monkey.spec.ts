@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { ERASE_CHUNK, LINE_LENGTH, MonkeyState, monkeyActions, monkeyInitialState, monkeyReducer } from './use-monkey';
-import { Quote } from './types';
+import { ERASE_CHUNK, LINE_LENGTH, MonkeyState, monkeyActions, monkeyInitialState, monkeyReducer } from '@/lib/use-monkey';
+import { Quote } from '@/lib/types';
 
 describe('monkeyReducer', () => {
   it('WAKEUP resets essay and currentQuote, and wakes the monkey up', () => {

@@ -1,4 +1,4 @@
-import { Quote } from 'lib/types';
+import { Quote } from '@/lib/types';
 
 const quotes: Quote[] = [
   {

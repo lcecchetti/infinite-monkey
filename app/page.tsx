@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import styles from 'styles/app/home.module.scss';
-import MonkeyOutput from 'components/MonkeyOutput';
-import quotes from 'data/quotes';
+import styles from '@/styles/app/home.module.scss';
+import MonkeyOutput from '@/components/MonkeyOutput';
+import quotes from '@/data/quotes';
 
 const THEOREM_DEFINITION = "The infinite monkey theorem states that a monkey hitting keys at random on a typewriter keyboard for an infinite amount of time will almost surely type any given text, such as the complete works of William Shakespeare.";
 

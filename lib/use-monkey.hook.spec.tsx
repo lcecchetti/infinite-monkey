@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import useMonkey, { ERASE_SPEED } from './use-monkey';
-import { Quote } from './types';
+import useMonkey, { ERASE_SPEED } from '@/lib/use-monkey';
+import { Quote } from '@/lib/types';
 
 describe('useMonkey', () => {
   let playMock: ReturnType<typeof vi.fn>;

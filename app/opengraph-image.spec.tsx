@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { alt, contentType, size } from './opengraph-image';
+import { alt, contentType, size } from '@/app/opengraph-image';
 
 describe('opengraph-image', () => {
   it('exposes the metadata Next.js reads to build the og:image tags', () => {

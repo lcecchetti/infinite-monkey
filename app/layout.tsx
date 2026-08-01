@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import localFont from 'next/font/local';
 import { Analytics } from '@vercel/analytics/next';
-import 'styles/globals.scss';
-import Monitor from 'components/Monitor';
+import '@/styles/globals.scss';
+import Monitor from '@/components/Monitor';
 
 const terminalFont = localFont({
   src: '../public/fonts/MajorMonoDisplay-Regular.woff2',

@@ -1,4 +1,4 @@
-@use 'styles/theme' as *;
+@use '../theme' as *;
 
 // 60 monospace chars of this font measure ~44.5em wide (calibrated against
 // real renders - the built-in `ch` unit doesn't match this font's actual

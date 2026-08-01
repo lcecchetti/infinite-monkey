@@ -1,10 +1,10 @@
 'use client';
 
 import { CSSProperties, useContext, useEffect, useRef } from 'react';
-import IsMonitorOnContext from "lib/is-monitor-on-context";
-import useMonkey, { getMaxLines } from "lib/use-monkey";
-import { Quote } from "lib/types";
-import styles from 'styles/components/monkey-output.module.scss';
+import IsMonitorOnContext from "@/lib/is-monitor-on-context";
+import useMonkey, { getMaxLines } from "@/lib/use-monkey";
+import { Quote } from "@/lib/types";
+import styles from '@/styles/components/monkey-output.module.scss';
 
 interface MonkeyOutputProps {
   quotes: Quote[];

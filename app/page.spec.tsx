@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import Home, { metadata } from './page';
+import Home, { metadata } from '@/app/page';
 
 describe('Home', () => {
   it('renders the logo, theorem intro, and an idle monkey', () => {
