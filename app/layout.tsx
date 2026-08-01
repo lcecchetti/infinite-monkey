@@ -1,12 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
-import { Suspense } from 'react';
+import { Analytics } from '@vercel/analytics/next';
 import 'styles/globals.scss';
 import Monitor from 'components/Monitor';
-import CookieConsent from 'components/CookieConsent';
-import ConsentProvider from 'components/ConsentProvider';
-import GoogleTagManager from 'components/GoogleTagManager';
-import Analytics from 'components/Analytics';
 
 export const metadata: Metadata = {
   title: 'Infinite Monkey Lab',
@@ -27,18 +23,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en">
       <body>
-        <ConsentProvider>
-          <GoogleTagManager />
+        <Monitor>{children}</Monitor>
 
-          <Suspense fallback={null}>
-            <Analytics />
-          </Suspense>
-
-          <Monitor>
-            {children}
-            <CookieConsent />
-          </Monitor>
-        </ConsentProvider>
+        <Analytics />
       </body>
     </html>
   );
