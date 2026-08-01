@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import IsMonitorOnContext from "lib/IsMonitorOnContext";
 import styles from 'styles/components/Monitor.module.scss';
 
@@ -9,12 +9,9 @@ interface MonitorProps {
 }
 
 const Monitor = ({ children }: MonitorProps) => {
+  // hydration-safe "have we mounted on the client yet" flag
   const [isOn, setIsOn] = useState(false);
-
-  // turn on monitor at page load
-  useEffect(() => {
-    setIsOn(true);
-  });
+  useEffect(() => setIsOn(true), []);
 
   return (
     <div className={`${styles.monitor} ${isOn ? styles.on : styles.off}`}>

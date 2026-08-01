@@ -12,11 +12,6 @@ const quotes: Quote[] = [
     work: 'Divina Commedia',
   },
   {
-    quote: 'Nel mezzo del cammin di nostra vita mi ritrovai per una selva oscura che la diritta via era smarrita',
-    author: 'Dante Alighieri',
-    work: 'Divina Commedia',
-  },
-  {
     quote: 'All we have to decide is what to do with the time that is given us',
     author: 'J. R. R. Tolkien',
     work: 'The Fellowship of the Ring',

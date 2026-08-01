@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 import { EssayChar, Quote } from 'lib/types';
 
 /** monkey alphabet */
@@ -7,28 +7,60 @@ const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ';
 /** min length of the quote guessed */
 const MIN_QUOTE_LENGTH = 10;
 
+/** fixed terminal column width a line wraps at, like a real terminal */
+export const LINE_LENGTH = 60;
+
+/** how often the page wipes itself, in ms per tick - quick, not random */
+export const ERASE_SPEED = 4;
+
+/** how many characters are wiped per erase tick */
+export const ERASE_CHUNK = 15;
+
+/** number of fixed-width lines a page holds before it wipes (or ends in a quote) */
+export const getMaxLines = (maxEssayLength: number): number => {
+  return Math.max(1, Math.round(maxEssayLength / LINE_LENGTH));
+};
+
 /**
  * Monkey reducer action types
  */
-const monkeyActions = {
+export const monkeyActions = {
   DO: 'DO',
+  ERASE: 'ERASE',
   WAKEUP: 'WAKEUP',
   SLEEP: 'SLEEP',
 } as const;
 
-type MonkeyActionType = typeof monkeyActions[keyof typeof monkeyActions];
-
-interface MonkeyAction {
-  type: MonkeyActionType;
+interface MonkeyDoAction {
+  type: typeof monkeyActions.DO;
+  quotes: Quote[];
+  literateRatio: number;
+  maxEssayLength: number;
 }
 
-interface MonkeyState {
+interface MonkeyEraseAction {
+  type: typeof monkeyActions.ERASE;
+}
+
+interface MonkeyWakeupAction {
+  type: typeof monkeyActions.WAKEUP;
+}
+
+interface MonkeySleepAction {
+  type: typeof monkeyActions.SLEEP;
+}
+
+type MonkeyAction = MonkeyDoAction | MonkeyEraseAction | MonkeyWakeupAction | MonkeySleepAction;
+
+export interface MonkeyState {
   isAwake: boolean;
   essay: EssayChar[];
   currentQuote: Quote | null;
-  quotes: Quote[];
-  literateRatio: number;
   speed?: number;
+  /** chars typed on the current, not-yet-wrapped line */
+  lineLength: number;
+  /** typing normally, or quickly wiping a filled page before starting a fresh one */
+  phase: 'typing' | 'erasing';
 }
 
 /**
@@ -43,10 +75,16 @@ const getRandomQuote = (quotes: Quote[]): Quote => {
  * Get random quote part
  */
 const getRandomQuotePart = (quote: string): string => {
-  const sliceFrom = Math.floor(Math.random() * (quote.length - MIN_QUOTE_LENGTH));
-  const sliceLength = Math.floor(Math.random() * quote.length + MIN_QUOTE_LENGTH);
-  return quote.substr(sliceFrom, sliceLength).trim();
-}
+  if (quote.length <= MIN_QUOTE_LENGTH) {
+    return quote.trim();
+  }
+
+  const start = Math.floor(Math.random() * (quote.length - MIN_QUOTE_LENGTH));
+  const maxLength = quote.length - start;
+  const length = MIN_QUOTE_LENGTH + Math.floor(Math.random() * (maxLength - MIN_QUOTE_LENGTH + 1));
+
+  return quote.slice(start, start + length).trim();
+};
 
 /**
  * Check if the monkey should type the next char wrong
@@ -86,16 +124,18 @@ const getRandomChar = (): string => {
 /**
  * Initial monkey state
  */
-const monkeyInitialState: Pick<MonkeyState, 'isAwake' | 'essay' | 'currentQuote'> = {
+export const monkeyInitialState: MonkeyState = {
   isAwake: false,
   essay: [],
   currentQuote: null,
+  lineLength: 0,
+  phase: 'typing',
 };
 
 /**
  * Monkey reducer
  */
-const monkeyReducer = (monkey: MonkeyState, action: MonkeyAction): MonkeyState => {
+export const monkeyReducer = (monkey: MonkeyState, action: MonkeyAction): MonkeyState => {
 
   switch (action.type) {
 
@@ -105,13 +145,13 @@ const monkeyReducer = (monkey: MonkeyState, action: MonkeyAction): MonkeyState =
       let currentQuote = monkey.currentQuote ? { ...monkey.currentQuote } : null;
 
       // check if monkey should typo or if it should quote
-      if (shouldTypo(monkey.literateRatio, currentQuote)) {
+      if (shouldTypo(action.literateRatio, currentQuote)) {
         newChar = type(getRandomChar(), false);
       }
       else {
         // pick next quote
         if (!currentQuote) {
-          currentQuote = { ...getRandomQuote(monkey.quotes) };
+          currentQuote = { ...getRandomQuote(action.quotes) };
           currentQuote.quote = getRandomQuotePart(currentQuote.quote);
         }
 
@@ -120,12 +160,61 @@ const monkeyReducer = (monkey: MonkeyState, action: MonkeyAction): MonkeyState =
         currentQuote.quote = currentQuote.quote.substring(1);
       }
 
+      const essay = [...monkey.essay, newChar];
+      let lineLength = monkey.lineLength + 1;
+
+      // wrap to a new line at a fixed column width, like a real terminal
+      if (lineLength >= LINE_LENGTH) {
+        essay.push(type('\n', false));
+        lineLength = 0;
+      }
+
+      const maxLines = getMaxLines(action.maxEssayLength);
+      const lineCount = essay.reduce((count, char) => count + (char.value === '\n' ? 1 : 0), 1);
+      const quoteInProgress = !!currentQuote && currentQuote.quote !== '';
+
+      // the page is full - but never cut a quote short: keep typing past
+      // the limit until it finishes, then handle the page as usual
+      if (lineCount > maxLines && !quoteInProgress) {
+        // a quote finished on this page: end the run here, as if stopped by hand
+        if (currentQuote) {
+          return {
+            ...monkey,
+            currentQuote,
+            essay,
+            lineLength,
+            isAwake: false,
+          };
+        }
+
+        // no quote this page: wipe it quickly and start a fresh one
+        return {
+          ...monkey,
+          currentQuote,
+          essay,
+          lineLength,
+          phase: 'erasing',
+        };
+      }
+
       return {
         ...monkey,
         currentQuote,
         speed: getRandomSpeed(),
-        essay: [...monkey.essay, newChar],
+        essay,
+        lineLength,
       };
+    }
+
+    // quickly erase the page a chunk at a time, then resume typing on a fresh one
+    case monkeyActions.ERASE: {
+      const essay = monkey.essay.slice(0, -ERASE_CHUNK);
+
+      if (essay.length === 0) {
+        return { ...monkey, essay, lineLength: 0, phase: 'typing' };
+      }
+
+      return { ...monkey, essay };
     }
 
     // wake up the monkey
@@ -156,16 +245,13 @@ const monkeyReducer = (monkey: MonkeyState, action: MonkeyAction): MonkeyState =
  * - No digital monkey was harmed in the making of this program -
  * @param quotes - list of quotes
  * @param literateRatio - how much the monkey is literate in a range from 0 to 1
- * @param maxEssayLength - maximum length of the essay before taking a break
+ * @param maxEssayLength - size of a "page" before it wipes (or ends in a
+ * quote), expressed in characters and translated into a number of fixed-width lines
  */
 const useMonkey = (quotes: Quote[], literateRatio: number, maxEssayLength: number) => {
 
   // monkey
-  const [monkey, dispatch] = useReducer(monkeyReducer, {
-    ...monkeyInitialState,
-    quotes,
-    literateRatio,
-  });
+  const [monkey, dispatch] = useReducer(monkeyReducer, monkeyInitialState);
 
   // sound effect
   const [soundEffect, setSoundEffect] = useState<HTMLAudioElement>();
@@ -173,6 +259,7 @@ const useMonkey = (quotes: Quote[], literateRatio: number, maxEssayLength: numbe
   /**
    * Load sound effect
    */
+  // constructing an Audio instance is a real side effect, not a derivable snapshot
   useEffect(() => {
     const audio = new Audio('/audio/keyboard.mp3');
     // set soudn effect to loop
@@ -181,46 +268,67 @@ const useMonkey = (quotes: Quote[], literateRatio: number, maxEssayLength: numbe
       this.play();
     }, false);
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSoundEffect(audio);
   }, [])
 
   /**
-   * Set the monkey awaken
+   * Keep the sound effect in sync with the monkey's state - silent while erasing
    */
-  const wakeUp = () => {
-    dispatch({ type: monkeyActions.WAKEUP });
+  useEffect(() => {
+    if (!soundEffect) {
+      return;
+    }
 
-    // play sound effect
-    if (soundEffect) {
+    if (monkey.isAwake && monkey.phase === 'typing') {
       soundEffect.play();
     }
-  };
+    else {
+      soundEffect.pause();
+    }
+  }, [monkey.isAwake, monkey.phase, soundEffect]);
+
+  /**
+   * Set the monkey awaken
+   */
+  const wakeUp = useCallback(() => {
+    dispatch({ type: monkeyActions.WAKEUP });
+  }, []);
 
   /**
    * Set the monkey asleep
    */
-  const sleep = () => {
+  const sleep = useCallback(() => {
     dispatch({ type: monkeyActions.SLEEP });
-
-    // pause sound effect
-    if (soundEffect) {
-      soundEffect.pause();
-    }
-  };
+  }, []);
 
   /**
-   * Monkey loop
+   * Monkey loop - types page after page while awake; once a page fills up
+   * the reducer either wipes it (no quote found) or stops the monkey (it
+   * quoted something), so this only ever drives DO or ERASE ticks
    */
-  if (monkey.isAwake) {
-    if (monkey.essay.length < maxEssayLength) {
-      setTimeout(() => {
-        dispatch({ type: monkeyActions.DO });
-      }, monkey.speed);
+  useEffect(() => {
+    if (!monkey.isAwake) {
+      return;
     }
-    else {
-      sleep();
+
+    if (monkey.phase === 'erasing') {
+      const timer = setTimeout(() => {
+        dispatch({ type: monkeyActions.ERASE });
+      }, ERASE_SPEED);
+
+      return () => clearTimeout(timer);
     }
-  }
+
+    const timer = setTimeout(() => {
+      dispatch({ type: monkeyActions.DO, quotes, literateRatio, maxEssayLength });
+    }, monkey.speed);
+
+    return () => clearTimeout(timer);
+    // essay.length is the dependency that reliably changes every ERASE tick
+    // (speed and phase don't change tick-to-tick while erasing), so it's
+    // what keeps this effect rescheduling once a page starts wiping itself
+  }, [monkey.isAwake, monkey.phase, monkey.speed, monkey.essay.length, maxEssayLength, quotes, literateRatio]);
 
   return { monkey, wakeUp, sleep };
 };

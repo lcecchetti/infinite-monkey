@@ -1,10 +1,20 @@
-@import 'styles/theme';
+@use 'styles/theme' as *;
+
+// 60 monospace chars of this font measure ~44.5em wide (calibrated against
+// real renders - the built-in `ch` unit doesn't match this font's actual
+// glyph width). Kept as a shared value so the essay and moral columns match.
+$line-em-width: 44.5;
+// 2 * ($default-padding 15px + 1px border), the box's own horizontal chrome
+$box-decoration: 32px;
 
 .monkeyOutput {
 
   margin: 0 auto;
   max-width: 1000px;
   position: relative;
+  // makes cqi/cqw below resolve against this element's own width, so the
+  // font size below reacts live to resizes with no JS/listener involved
+  container-type: inline-size;
 
   .actions {
     margin: $default-margin 0;
@@ -15,22 +25,35 @@
   }
 
   .monkeyEssay {
+    // shrink the font just enough that $line-em-width em's worth of text
+    // plus the box's own chrome fits the container - never past 1em (the
+    // natural, already mobile-adjusted size) - so it never overflows
+    font-size: clamp(6px, calc((100cqi - #{$box-decoration}) / #{$line-em-width}), 1em);
+    width: calc(#{$line-em-width} * 1em);
+    height: calc(var(--max-lines) * 1lh);
+    box-sizing: content-box;
+    max-width: 100%;
+    overflow-x: auto;
     border: 1px solid $terminal-color;
     border-bottom: none;
     border-top: none;
     padding: $default-padding;
-    margin: $default-margin 0;
-    white-space: pre-wrap;
-    word-break: break-all;
+    margin: $default-margin auto;
+    // our own '\n' markers are the only line breaks; never let the browser wrap
+    white-space: pre;
     .highlight {
       background: $terminal-highlight-background;
     }
   }
 
   .moral {
+    font-size: clamp(6px, calc((100cqi - #{$box-decoration}) / #{$line-em-width}), 1em);
+    width: calc(#{$line-em-width} * 1em);
+    box-sizing: content-box;
+    max-width: 100%;
     border: 1px dashed;
     font-weight: bold;
-    margin: $default-margin 0;
+    margin: $default-margin auto;
     padding: 15px;
     text-align: center;
   }

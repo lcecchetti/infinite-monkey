@@ -1,1 +1,4 @@
-@include fontface($terminal-font-family);
+@use 'mixins';
+@use 'variables';
+
+@include mixins.fontface(variables.$terminal-font-family);

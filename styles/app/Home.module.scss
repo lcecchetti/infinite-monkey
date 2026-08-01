@@ -1,4 +1,4 @@
-@import 'styles/_theme';
+@use 'styles/theme' as *;
 
 .home {
   .logo {

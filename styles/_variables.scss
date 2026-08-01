@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 //font
 $font-family: 'MajorMonoDisplay-Regular';
 $font-size: 18px;
@@ -22,6 +24,6 @@ $terminal-color: #0f6;
 $terminal-font-family: $font-family;
 $terminal-font-size: $font-size;
 $terminal-line-height: 1.5;
-$terminal-text-shadow: lighten($terminal-color, 20%);
+$terminal-text-shadow: color.adjust($terminal-color, $lightness: 20%);
 $terminal-transition: .5s;
-$terminal-highlight-background: darken($terminal-color, 30%);
+$terminal-highlight-background: color.adjust($terminal-color, $lightness: -30%);

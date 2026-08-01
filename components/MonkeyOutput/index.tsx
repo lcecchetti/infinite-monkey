@@ -1,8 +1,8 @@
 'use client';
 
-import { useContext } from 'react';
+import { CSSProperties, useContext, useEffect, useRef } from 'react';
 import IsMonitorOnContext from "lib/IsMonitorOnContext";
-import useMonkey from "lib/useMonkey";
+import useMonkey, { getMaxLines } from "lib/useMonkey";
 import { Quote } from "lib/types";
 import styles from 'styles/components/MonkeyOutput.module.scss';
 
@@ -15,34 +15,54 @@ interface MonkeyOutputProps {
 const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }: MonkeyOutputProps) => {
   const isMonitorOn = useContext(IsMonitorOnContext);
   const { monkey, wakeUp, sleep } = useMonkey(quotes, literateRatio, maxEssayLength);
+  const quoteRef = useRef<HTMLSpanElement>(null);
 
-  // stop the monkey
-  if (!isMonitorOn && monkey.isAwake) {
-    sleep();
-  }
+  // drives the box's fixed height (see height: calc(var(--max-lines) * 1lh)
+  // in MonkeyOutput.module.scss) - sizing itself is pure CSS, no measurement
+  const maxLines = getMaxLines(maxEssayLength);
+  const outputStyle = { '--max-lines': maxLines } as CSSProperties;
+
+  // stop the monkey when the monitor turns off
+  useEffect(() => {
+    if (!isMonitorOn && monkey.isAwake) {
+      sleep();
+    }
+  }, [isMonitorOn, monkey.isAwake, sleep]);
+
+  const hasText = monkey.essay.length > 0;
+
+  // scroll to the quote as soon as one is found
+  const hasQuote = !!monkey.currentQuote;
+  useEffect(() => {
+    if (hasQuote) {
+      quoteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [hasQuote]);
+
+  const firstQuoteIndex = monkey.essay.findIndex((char) => char.isQuote);
 
   return (
-    <div className={styles.monkeyOutput}>
+    <div className={styles.monkeyOutput} style={outputStyle}>
 
       <div className={styles.actions}>
         <button className={styles.awakeButton} onClick={monkey.isAwake ? sleep : wakeUp}>{monkey.isAwake ? 'Stop The Monkey' : 'Execute Monkey Program'}</button>
       </div>
 
-      {!!monkey.essay.length &&
+      {hasText &&
         <div className={styles.monkeyEssay}>
           {monkey.essay.map((char, index) => (
-            <span className={char.isQuote ? styles.highlight : ''} key={index}>{char.value}</span>
+            <span
+              ref={index === firstQuoteIndex ? quoteRef : undefined}
+              className={char.isQuote ? styles.highlight : ''}
+              key={index}
+            >
+              {char.value}
+            </span>
           ))}
         </div>
       }
 
-      {(monkey.essay.length >= maxEssayLength && !monkey.currentQuote) &&
-        <div className={styles.actions}>
-          <button className={styles.awakeButton} onClick={wakeUp}>Keep going</button>
-        </div>
-      }
-
-      {(!monkey.isAwake && monkey.currentQuote) &&
+      {(!monkey.isAwake && monkey.currentQuote && monkey.currentQuote.quote === '') &&
         <div className={styles.moral}>
           <p>Congratulations, your MONKEY instance did quote {monkey.currentQuote.work} from {monkey.currentQuote.author}.</p>
           <p>
@@ -50,8 +70,8 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }: MonkeyOutputPro
             What about this text? What about this program?<br/>
             And what about yourself?
           </p>
-          <p>Isn't all of this just the latest character typed by this branch of the universe?</p>
-          <p>ChAOS reading ChAOS' writings.</p>
+          <p>Isn&apos;t all of this just the latest character typed by this branch of the universe?</p>
+          <p>ChAOS reading ChAOS&apos; writings.</p>
         </div>
       }
 

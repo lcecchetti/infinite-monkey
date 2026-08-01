@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
-import Script from 'next/script';
 import { Suspense } from 'react';
 import 'styles/globals.scss';
 import Monitor from 'components/Monitor';
 import CookieConsent from 'components/CookieConsent';
+import ConsentProvider from 'components/ConsentProvider';
+import GoogleTagManager from 'components/GoogleTagManager';
 import Analytics from 'components/Analytics';
-import { GA_TRACKING_ID } from 'lib/gtag';
 
 export const metadata: Metadata = {
   title: 'Infinite Monkey Lab',
@@ -27,30 +27,18 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en">
       <body>
-        {/* Global Site Tag (gtag.js) - Google Analytics */}
-        <Script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-        />
-        <Script id="gtag-init">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-          `}
-        </Script>
+        <ConsentProvider>
+          <GoogleTagManager />
 
-        <Suspense fallback={null}>
-          <Analytics />
-        </Suspense>
+          <Suspense fallback={null}>
+            <Analytics />
+          </Suspense>
 
-        <Monitor>
-          {children}
-          <CookieConsent />
-        </Monitor>
+          <Monitor>
+            {children}
+            <CookieConsent />
+          </Monitor>
+        </ConsentProvider>
       </body>
     </html>
   );
