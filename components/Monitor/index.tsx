@@ -1,8 +1,8 @@
 'use client';
 
 import { ReactNode, useEffect, useState } from 'react';
-import IsMonitorOnContext from "lib/IsMonitorOnContext";
-import styles from 'styles/components/Monitor.module.scss';
+import IsMonitorOnContext from "lib/is-monitor-on-context";
+import styles from 'styles/components/monitor.module.scss';
 
 interface MonitorProps {
   children: ReactNode;

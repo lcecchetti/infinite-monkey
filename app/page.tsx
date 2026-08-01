@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import styles from 'styles/app/Home.module.scss';
+import styles from 'styles/app/home.module.scss';
 import MonkeyOutput from 'components/MonkeyOutput';
 import quotes from 'data/quotes';
 

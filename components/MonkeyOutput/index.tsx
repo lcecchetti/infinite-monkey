@@ -1,10 +1,10 @@
 'use client';
 
 import { CSSProperties, useContext, useEffect, useRef } from 'react';
-import IsMonitorOnContext from "lib/IsMonitorOnContext";
-import useMonkey, { getMaxLines } from "lib/useMonkey";
+import IsMonitorOnContext from "lib/is-monitor-on-context";
+import useMonkey, { getMaxLines } from "lib/use-monkey";
 import { Quote } from "lib/types";
-import styles from 'styles/components/MonkeyOutput.module.scss';
+import styles from 'styles/components/monkey-output.module.scss';
 
 interface MonkeyOutputProps {
   quotes: Quote[];
@@ -18,7 +18,7 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }: MonkeyOutputPro
   const quoteRef = useRef<HTMLSpanElement>(null);
 
   // drives the box's fixed height (see height: calc(var(--max-lines) * 1lh)
-  // in MonkeyOutput.module.scss) - sizing itself is pure CSS, no measurement
+  // in monkey-output.module.scss) - sizing itself is pure CSS, no measurement
   const maxLines = getMaxLines(maxEssayLength);
   const outputStyle = { '--max-lines': maxLines } as CSSProperties;
 

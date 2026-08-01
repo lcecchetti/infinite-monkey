@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ERASE_CHUNK, LINE_LENGTH, MonkeyState, monkeyActions, monkeyInitialState, monkeyReducer } from './useMonkey';
+import { ERASE_CHUNK, LINE_LENGTH, MonkeyState, monkeyActions, monkeyInitialState, monkeyReducer } from './use-monkey';
 import { Quote } from './types';
 
 describe('monkeyReducer', () => {

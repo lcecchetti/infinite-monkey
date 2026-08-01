@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import useMonkey, { ERASE_SPEED } from './useMonkey';
+import useMonkey, { ERASE_SPEED } from './use-monkey';
 import { Quote } from './types';
 
 describe('useMonkey', () => {

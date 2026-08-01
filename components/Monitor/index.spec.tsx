@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { useContext } from 'react';
 import Monitor from '.';
-import IsMonitorOnContext from 'lib/IsMonitorOnContext';
+import IsMonitorOnContext from 'lib/is-monitor-on-context';
 
 const ContextProbe = () => {
   const isMonitorOn = useContext(IsMonitorOnContext);
