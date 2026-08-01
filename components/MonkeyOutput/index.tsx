@@ -64,7 +64,7 @@ const MonkeyOutput = ({ quotes, literateRatio, maxEssayLength }: MonkeyOutputPro
 
       {(!monkey.isAwake && monkey.currentQuote && monkey.currentQuote.quote === '') &&
         <div className={styles.moral}>
-          <p>Congratulations, your MONKEY instance did quote {monkey.currentQuote.work} from {monkey.currentQuote.author}.</p>
+          <p>Congratulations, your MONKEY instance did quote {monkey.currentQuote.work} by {monkey.currentQuote.author}.</p>
           <p>
             But is that truly unexpected?<br/>
             What about this text? What about this program?<br/>

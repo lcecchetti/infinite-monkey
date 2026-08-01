@@ -4,7 +4,7 @@ import { EssayChar, Quote } from 'lib/types';
 /** monkey alphabet */
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ';
 
-/** min length of the quote guessed */
+/** min length of a guessed quote */
 const MIN_QUOTE_LENGTH = 10;
 
 /** fixed terminal column width a line wraps at, like a real terminal */
@@ -262,7 +262,7 @@ const useMonkey = (quotes: Quote[], literateRatio: number, maxEssayLength: numbe
   // constructing an Audio instance is a real side effect, not a derivable snapshot
   useEffect(() => {
     const audio = new Audio('/audio/keyboard.mp3');
-    // set soudn effect to loop
+    // set sound effect to loop
     audio.addEventListener('ended', function () {
       this.currentTime = 0;
       this.play();
@@ -289,7 +289,7 @@ const useMonkey = (quotes: Quote[], literateRatio: number, maxEssayLength: numbe
   }, [monkey.isAwake, monkey.phase, soundEffect]);
 
   /**
-   * Set the monkey awaken
+   * Set the monkey awake
    */
   const wakeUp = useCallback(() => {
     dispatch({ type: monkeyActions.WAKEUP });

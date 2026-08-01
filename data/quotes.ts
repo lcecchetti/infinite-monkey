@@ -18,7 +18,7 @@ const quotes: Quote[] = [
   },
   {
     quote: 'Whatever our souls are made of his and mine are the same',
-    author: 'Emily Bronte',
+    author: 'Emily Brontë',
     work: 'Wuthering Heights',
   },
   {
@@ -54,10 +54,10 @@ const quotes: Quote[] = [
   {
     quote: 'Nowadays people know the price of everything and the value of nothing',
     author: 'Oscar Wilde',
-    work: 'The Picture of Dorian Grey',
+    work: 'The Picture of Dorian Gray',
   },
   {
-    quote: 'We dream in our waking moments, and walk in our sleep',
+    quote: 'We dream in our waking moments and walk in our sleep',
     author: 'Nathaniel Hawthorne',
     work: 'The Scarlet Letter',
   },
@@ -69,7 +69,7 @@ const quotes: Quote[] = [
   {
     quote: 'The answer to the ultimate question of life the universe and everything is 42',
     author: 'Douglas Adams',
-    work: 'The Hitchhikers Guide to the Galaxy',
+    work: 'The Hitchhiker\'s Guide to the Galaxy',
   },
   {
     quote: 'As Gregor Samsa awoke one morning from uneasy dreams he found himself transformed in his bed into an enormous insect',
